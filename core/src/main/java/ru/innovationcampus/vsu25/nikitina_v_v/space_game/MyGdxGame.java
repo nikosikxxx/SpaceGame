@@ -1,10 +1,14 @@
 package ru.innovationcampus.vsu25.nikitina_v_v.space_game;
 
+import static ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings.POSITION_ITERATIONS;
 import static ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings.SCREEN_HEIGHT;
 import static ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings.SCREEN_WIDTH;
+import static ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings.STEP_TIME;
+import static ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings.VELOCITY_ITERATIONS;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,10 +21,21 @@ import ru.innovationcampus.vsu25.nikitina_v_v.space_game.screens.GameScreen;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MyGdxGame extends Game {
-    private SpriteBatch batch;
+    public SpriteBatch batch;
     public OrthographicCamera camera;
     public GameScreen gameScreen;
     public World world;
+    float accumulator = 0;
+
+    public void setWorld() {
+        float delta = Gdx.graphics.getDeltaTime();
+        accumulator += delta;
+
+        if (accumulator >= STEP_TIME) {
+            accumulator -= STEP_TIME;
+            world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+        }
+    }
 
     @Override
     public void create() {
@@ -36,12 +51,6 @@ public class MyGdxGame extends Game {
         setScreen(gameScreen);
     }
 
-    @Override
-    public void render() {
-        ScreenUtils.clear(0.1f, 0.1f, 1, 1);
-        batch.begin();
-        batch.end();
-    }
 
     @Override
     public void dispose() {
