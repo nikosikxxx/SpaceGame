@@ -5,7 +5,9 @@ import static ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings.SCR
 import static ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings.SHIP_HEIGHT;
 import static ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings.SHIP_WIDTH;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -20,10 +22,22 @@ public class GameScreen extends ScreenAdapter {
         shipObject = new ShipObject(SHIP_IMG_PATH,SCREEN_WIDTH / 2,150, SHIP_WIDTH, SHIP_HEIGHT, myGdxGame.world);
     }
 
+    private void handleInput() {
+        if (Gdx.input.isTouched()) {
+            myGdxGame.touch = myGdxGame.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+            shipObject.move(myGdxGame.touch);
+        }
+    }
+
     @Override
     public void render(float delta) {
-        //myGdxGame.stepWorld();
-        ScreenUtils.clear(0.5f, 0.3f, 1, 1);
+        myGdxGame.stepWorld();
+        handleInput();
+        draw();
+
+    }
+    public void draw() {
+        ScreenUtils.clear(0.5f, 0.8f, 1, 1);
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         myGdxGame.batch.begin();
