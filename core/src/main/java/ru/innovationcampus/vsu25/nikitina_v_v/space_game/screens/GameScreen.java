@@ -11,15 +11,28 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.ArrayList;
+
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameResources;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSession;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.MyGdxGame;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.ShipObject;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.TrashObject;
 
 public class GameScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
     ShipObject shipObject;
+    GameSession gameSession;
+    ArrayList<TrashObject> trashArray;
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
+        trashArray = new ArrayList<>();
+        gameSession = new GameSession();
         shipObject = new ShipObject(SHIP_IMG_PATH,SCREEN_WIDTH / 2,150, SHIP_WIDTH, SHIP_HEIGHT, myGdxGame.world);
+    }
+    public void show() {
+        gameSession.startGame();
     }
 
     private void handleInput() {
@@ -31,6 +44,12 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        if (gameSession.shouldSpawnTrash()) {
+            TrashObject trashObject = new TrashObject(GameResources.TRASH_IMG_PATH,
+                GameSettings.TRASH_WIDTH, GameSettings.TRASH_HEIGHT, myGdxGame.world);
+            trashArray.add(trashObject);
+
+        }
         myGdxGame.stepWorld();
         handleInput();
         draw();
