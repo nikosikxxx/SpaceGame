@@ -17,6 +17,7 @@ import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameResources;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSession;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.MyGdxGame;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.BulletObject;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.ShipObject;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.TrashObject;
 
@@ -25,9 +26,11 @@ public class GameScreen extends ScreenAdapter {
     ShipObject shipObject;
     GameSession gameSession;
     ArrayList<TrashObject> trashArray;
+    ArrayList<BulletObject> bulletArray;
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         trashArray = new ArrayList<>();
+        bulletArray = new ArrayList<>();
         gameSession = new GameSession();
         shipObject = new ShipObject(SHIP_IMG_PATH,SCREEN_WIDTH / 2,150, SHIP_WIDTH, SHIP_HEIGHT, myGdxGame.world);
     }
@@ -41,17 +44,41 @@ public class GameScreen extends ScreenAdapter {
             shipObject.move(myGdxGame.touch);
         }
     }
+    private void updateTrash() {
+        for (int i = 0; i < trashArray.size(); i++) {
+            if (!trashArray.get(i).isInFrame()) {
+                myGdxGame.world.destroyBody(trashArray.get(i).body);
+                trashArray.remove(i--);
+            }
+        }
+    }
+    private void updateBullet() {
+        System.out.println("size:" + bulletArray.size());
+        for (int i = 0; i < bulletArray.size(); i++) {
+            if (bulletArray.get(i).hasToBeDestroyed()) {
+                myGdxGame.world.destroyBody(bulletArray.get(i).body);
+                bulletArray.remove(i--);
+            }
+        }
+    }
 
     @Override
     public void render(float delta) {
+        myGdxGame.stepWorld();
+        handleInput();
+
         if (gameSession.shouldSpawnTrash()) {
             TrashObject trashObject = new TrashObject(GameResources.TRASH_IMG_PATH,
                 GameSettings.TRASH_WIDTH, GameSettings.TRASH_HEIGHT, myGdxGame.world);
             trashArray.add(trashObject);
-
         }
-        myGdxGame.stepWorld();
-        handleInput();
+        if (shipObject.needToShoot()) {
+            BulletObject laserBullet = new BulletObject(GameResources.BULLET_IMG_PATH,shipObject.getX(), shipObject.getY() + shipObject.height/2,
+                GameSettings.BULLET_WIDTH, GameSettings.BULLET_HEiGHT, myGdxGame.world);
+            bulletArray.add(laserBullet);
+        }
+        updateBullet();
+        updateTrash();
         draw();
 
     }
@@ -62,6 +89,8 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.batch.begin();
 
         shipObject.draw(myGdxGame.batch);
+        for (TrashObject trash : trashArray) trash.draw(myGdxGame.batch);
+        for (BulletObject bullet : bulletArray) bullet.draw(myGdxGame.batch);
 
         myGdxGame.batch.end();
     }

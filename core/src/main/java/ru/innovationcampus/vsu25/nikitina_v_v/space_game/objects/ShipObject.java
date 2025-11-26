@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings;
 
 public class ShipObject extends GameObject{
+    public long lastShotTime;
 
     public ShipObject(String texturePath, int x, int y, int width, int height, World world) {
         super(texturePath, x, y, width, height, world);
@@ -28,6 +30,13 @@ public class ShipObject extends GameObject{
             setX(0);
         }
 
+    }
+
+    public boolean needToShoot() {
+        if (TimeUtils.millis() - lastShotTime >= GameSettings.SHOOTING_COOL_DOWN) {
+            lastShotTime = TimeUtils.millis();
+            return true;
+        } return false;
     }
 
     @Override
