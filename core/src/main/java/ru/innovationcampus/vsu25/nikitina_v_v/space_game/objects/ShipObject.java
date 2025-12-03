@@ -11,9 +11,11 @@ import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings;
 
 public class ShipObject extends GameObject{
     public long lastShotTime;
+    int livesLeft;
 
     public ShipObject(String texturePath, int x, int y, int width, int height, World world) {
         super(texturePath, x, y, width, height, GameSettings.SHIP_BIT, world);
+        livesLeft = 3;
     }
 
     private void putInFrame() {
@@ -30,6 +32,15 @@ public class ShipObject extends GameObject{
             setX(0);
         }
 
+    }
+
+    @Override
+    public void hit() {
+        livesLeft -= 1;
+    }
+
+    public boolean isAlive() {
+        return livesLeft > 0;
     }
 
     public boolean needToShoot() {

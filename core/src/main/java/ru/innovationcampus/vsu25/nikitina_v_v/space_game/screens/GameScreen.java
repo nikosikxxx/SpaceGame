@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
 
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.ContactManager;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameResources;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSession;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings;
@@ -27,11 +28,13 @@ public class GameScreen extends ScreenAdapter {
     GameSession gameSession;
     ArrayList<TrashObject> trashArray;
     ArrayList<BulletObject> bulletArray;
+    ContactManager contactManager;
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         trashArray = new ArrayList<>();
         bulletArray = new ArrayList<>();
         gameSession = new GameSession();
+        contactManager = new ContactManager(myGdxGame.world);
         shipObject = new ShipObject(SHIP_IMG_PATH,SCREEN_WIDTH / 2,150, SHIP_WIDTH, SHIP_HEIGHT, myGdxGame.world);
     }
     public void show() {
@@ -46,7 +49,7 @@ public class GameScreen extends ScreenAdapter {
     }
     private void updateTrash() {
         for (int i = 0; i < trashArray.size(); i++) {
-            if (!trashArray.get(i).isInFrame()) {
+            if (!trashArray.get(i).isInFrame() || !trashArray.get(i).isAlive()) {
                 myGdxGame.world.destroyBody(trashArray.get(i).body);
                 trashArray.remove(i--);
             }
@@ -76,6 +79,9 @@ public class GameScreen extends ScreenAdapter {
             BulletObject laserBullet = new BulletObject(GameResources.BULLET_IMG_PATH,shipObject.getX(), shipObject.getY() + shipObject.height/2,
                 GameSettings.BULLET_WIDTH, GameSettings.BULLET_HEiGHT, myGdxGame.world);
             bulletArray.add(laserBullet);
+        }
+        if (!shipObject.isAlive()) {
+            System.out.println("Game over!");
         }
         updateBullet();
         updateTrash();
