@@ -13,7 +13,7 @@ public class ShipObject extends GameObject{
     public long lastShotTime;
 
     public ShipObject(String texturePath, int x, int y, int width, int height, World world) {
-        super(texturePath, x, y, width, height, world);
+        super(texturePath, x, y, width, height, GameSettings.SHIP_BIT, world);
     }
 
     private void putInFrame() {

@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class GameObject {
     public int width;
     public int height;
+    public short cBits;
     protected Texture texture;
     public Body body;
 
@@ -30,9 +31,10 @@ public class GameObject {
     }
 
 
-    public GameObject(String texturePath, int x, int y, int width, int height, World world) {
+    public GameObject(String texturePath, int x, int y, int width, int height, short cBits, World world) {
         this.width = width;
         this.height = height;
+        this.cBits = cBits;
 
         texture = new Texture(texturePath);
         body = createBody(x, y, world);
@@ -40,6 +42,9 @@ public class GameObject {
     public void draw(SpriteBatch batch){
         batch.draw(texture, getX() - (width / 2f), getY() - (height / 2f), width, height);
     }
+
+
+
 
 
     private Body createBody(float x, float y, World world) {
@@ -53,9 +58,11 @@ public class GameObject {
         circleShape.setRadius(Math.max(width, height) * SCALE / 2f);
 
         FixtureDef fixtureDef = new FixtureDef();
+        //fixture.setUserData(this);
         fixtureDef.shape = circleShape;
         fixtureDef.density = 0.1f;
         fixtureDef.friction = 1;
+        fixtureDef.filter.categoryBits = cBits;
 
         body.createFixture(fixtureDef);
         circleShape.dispose();
