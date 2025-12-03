@@ -21,6 +21,7 @@ import ru.innovationcampus.vsu25.nikitina_v_v.space_game.MyGdxGame;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.BulletObject;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.ShipObject;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.TrashObject;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.views.MovingBackgroundView;
 
 public class GameScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
@@ -29,12 +30,14 @@ public class GameScreen extends ScreenAdapter {
     ArrayList<TrashObject> trashArray;
     ArrayList<BulletObject> bulletArray;
     ContactManager contactManager;
+    MovingBackgroundView backgroundView;
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         trashArray = new ArrayList<>();
         bulletArray = new ArrayList<>();
         gameSession = new GameSession();
         contactManager = new ContactManager(myGdxGame.world);
+        backgroundView = new MovingBackgroundView(GameResources.BACKGROUND_IMG_PATH);
         shipObject = new ShipObject(SHIP_IMG_PATH,SCREEN_WIDTH / 2,150, SHIP_WIDTH, SHIP_HEIGHT, myGdxGame.world);
     }
     public void show() {
@@ -69,6 +72,7 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         myGdxGame.stepWorld();
         handleInput();
+        backgroundView.move();
 
         if (gameSession.shouldSpawnTrash()) {
             TrashObject trashObject = new TrashObject(GameResources.TRASH_IMG_PATH,
@@ -94,6 +98,7 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         myGdxGame.batch.begin();
 
+        backgroundView.draw(myGdxGame.batch);
         shipObject.draw(myGdxGame.batch);
         for (TrashObject trash : trashArray) trash.draw(myGdxGame.batch);
         for (BulletObject bullet : bulletArray) bullet.draw(myGdxGame.batch);
