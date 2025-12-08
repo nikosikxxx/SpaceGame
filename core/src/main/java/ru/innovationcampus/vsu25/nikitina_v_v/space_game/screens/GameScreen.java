@@ -21,24 +21,36 @@ import ru.innovationcampus.vsu25.nikitina_v_v.space_game.MyGdxGame;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.BulletObject;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.ShipObject;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.TrashObject;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.views.ButtonView;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.views.ImageView;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.views.LiveView;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.views.MovingBackgroundView;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.views.TextView;
 
 public class GameScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
+    ImageView topBalckoutView;
     ShipObject shipObject;
     GameSession gameSession;
     ArrayList<TrashObject> trashArray;
     ArrayList<BulletObject> bulletArray;
     ContactManager contactManager;
     MovingBackgroundView backgroundView;
+    LiveView liveView;
+    TextView scoretextView;
+    ButtonView pauseButton;
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         trashArray = new ArrayList<>();
         bulletArray = new ArrayList<>();
         gameSession = new GameSession();
+        scoretextView = new TextView(myGdxGame.commonWhiteFont, 50, 1215);
         contactManager = new ContactManager(myGdxGame.world);
         backgroundView = new MovingBackgroundView(GameResources.BACKGROUND_IMG_PATH);
         shipObject = new ShipObject(SHIP_IMG_PATH,SCREEN_WIDTH / 2,150, SHIP_WIDTH, SHIP_HEIGHT, myGdxGame.world);
+        topBalckoutView = new ImageView(0, 1180, GameResources.BLACKOUT_TOP_IMG_PATH);
+        liveView = new LiveView(305, 1215);
+        pauseButton = new ButtonView(605, 1200, 46, 54, GameResources.PAUSE_IMG_PATH);
     }
     public void show() {
         gameSession.startGame();
@@ -73,6 +85,7 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.stepWorld();
         handleInput();
         backgroundView.move();
+        scoretextView.setText("Score: " + 100);
 
         if (gameSession.shouldSpawnTrash()) {
             TrashObject trashObject = new TrashObject(GameResources.TRASH_IMG_PATH,
@@ -87,6 +100,7 @@ public class GameScreen extends ScreenAdapter {
         if (!shipObject.isAlive()) {
             System.out.println("Game over!");
         }
+        liveView.setLeftLives(shipObject.getLivesLeft());
         updateBullet();
         updateTrash();
         draw();
@@ -102,6 +116,12 @@ public class GameScreen extends ScreenAdapter {
         shipObject.draw(myGdxGame.batch);
         for (TrashObject trash : trashArray) trash.draw(myGdxGame.batch);
         for (BulletObject bullet : bulletArray) bullet.draw(myGdxGame.batch);
+        topBalckoutView.draw(myGdxGame.batch);
+        liveView.draw(myGdxGame.batch);
+        topBalckoutView.draw(myGdxGame.batch);
+        scoretextView.draw(myGdxGame.batch);
+        liveView.draw(myGdxGame.batch);
+        pauseButton.draw(myGdxGame.batch);
 
         myGdxGame.batch.end();
     }

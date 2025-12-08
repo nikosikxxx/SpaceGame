@@ -18,6 +18,10 @@ public class ShipObject extends GameObject{
         livesLeft = 3;
     }
 
+    public int getLivesLeft() {
+        return livesLeft;
+    }
+
     private void putInFrame() {
         if (getY() > (GameSettings.SCREEN_HEIGHT / 2f - height / 2f)) {
             setY(GameSettings.SCREEN_HEIGHT / 2 - height / 2);
