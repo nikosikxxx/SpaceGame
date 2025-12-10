@@ -21,7 +21,7 @@ public class View implements Disposable {
     }
 
     public boolean isHit (float tx, float ty) {
-        return true;
+        return tx >= x && tx <= x+width && ty >= y && ty <= y + height;
     }
 
     public void draw(SpriteBatch batch) {}

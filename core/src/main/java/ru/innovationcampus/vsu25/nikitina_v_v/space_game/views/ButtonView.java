@@ -26,7 +26,7 @@ public class ButtonView extends View{
         float textHeight = glyphLayout.height;
 
         textX = x + (width - textWidth) / 2;
-        textY = y + (height - textHeight) / 2;
+        textY = y + (height + textHeight) / 2;
     }
 
     public ButtonView(float x, float y, float width, float height, String texturePath) {

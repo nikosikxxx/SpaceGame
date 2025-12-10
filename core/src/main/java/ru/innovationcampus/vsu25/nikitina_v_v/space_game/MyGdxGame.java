@@ -30,6 +30,8 @@ public class MyGdxGame extends Game {
     public World world;
     public Vector3 touch;
     public BitmapFont commonWhiteFont;
+    public BitmapFont pauseWhiteFont;
+    public BitmapFont pauseButtonFont;
     float accumulator = 0;
 
     public void stepWorld() {
@@ -47,7 +49,9 @@ public class MyGdxGame extends Game {
 
             Box2D.init();
         world = new World(new Vector2(0, 0), true);
-        commonWhiteFont = FontBuilder.generate(24, Color.WHITE, GameResources.FONTS);
+        commonWhiteFont = FontBuilder.generate(27, Color.WHITE, GameResources.FONTS);
+        pauseWhiteFont = FontBuilder.generate(50, Color.WHITE, GameResources.FONTS);
+        pauseButtonFont = FontBuilder.generate(30, Color.BLACK, GameResources.FONTS);
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
