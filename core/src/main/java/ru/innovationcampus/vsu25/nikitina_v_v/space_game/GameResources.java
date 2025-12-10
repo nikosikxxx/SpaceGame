@@ -11,4 +11,5 @@ public class GameResources {
     public static final String PAUSE_IMG_PATH = "Image/pause_icon.png";
     public static final String FULL_BLACKOUT_IMG_PATH = "Image/blackout_full.png";
     public static final String BUTTON_IMG_PATH = "Image/button_background_short.png";
+    public static final String BUTTON_LONG_IMG_PATH = "Image/button_background_long.png";
 }

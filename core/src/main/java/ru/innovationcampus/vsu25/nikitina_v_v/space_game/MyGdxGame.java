@@ -21,17 +21,20 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.screens.GameScreen;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.screens.MenuScreen;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MyGdxGame extends Game {
     public SpriteBatch batch;
     public OrthographicCamera camera;
     public GameScreen gameScreen;
+    public MenuScreen menuScreen;
     public World world;
     public Vector3 touch;
     public BitmapFont commonWhiteFont;
     public BitmapFont pauseWhiteFont;
     public BitmapFont pauseButtonFont;
+
     float accumulator = 0;
 
     public void stepWorld() {
@@ -57,7 +60,8 @@ public class MyGdxGame extends Game {
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         gameScreen = new GameScreen(this);
-        setScreen(gameScreen);
+        menuScreen = new MenuScreen(this);
+        setScreen(menuScreen);
     }
 
 
