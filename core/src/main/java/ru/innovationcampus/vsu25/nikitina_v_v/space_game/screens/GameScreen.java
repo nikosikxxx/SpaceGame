@@ -62,6 +62,20 @@ public class GameScreen extends ScreenAdapter {
         pauseButton = new ButtonView(605, 1200, 46, 54, GameResources.PAUSE_IMG_PATH);
     }
     public void show() {
+        restarGame();
+    }
+
+    private void restarGame() {
+        for (int i = 0; i< trashArray.size(); i++) {
+            myGdxGame.world.destroyBody(trashArray.get(i).body);
+            trashArray.remove(i--);
+        }
+        if (shipObject != null) {
+            myGdxGame.world.destroyBody(shipObject.body);
+        }
+
+        shipObject = new ShipObject(SHIP_IMG_PATH, SCREEN_WIDTH / 2, 150, SHIP_WIDTH, SHIP_HEIGHT, myGdxGame.world);
+        bulletArray.clear();
         gameSession.startGame();
     }
 
@@ -76,6 +90,12 @@ public class GameScreen extends ScreenAdapter {
                     shipObject.move(myGdxGame.touch);
                     break;
                 case PAUSED:
+                    if (continueButton.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
+                        gameSession.resumeGame();
+                    }
+                    if (homeButton.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
+                        myGdxGame.setScreen(myGdxGame.menuScreen);
+                    }
                     break;
             }
         }
