@@ -15,6 +15,7 @@ import ru.innovationcampus.vsu25.nikitina_v_v.space_game.views.TextView;
 public class MenuScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
     GameScreen gameScreen;
+    SettingsScreen settingsScreen;
     MovingBackgroundView backgroundView;
     TextView tittleView;
     ButtonView startButtonView;
@@ -26,6 +27,7 @@ public class MenuScreen extends ScreenAdapter {
         backgroundView = new MovingBackgroundView(GameResources.BACKGROUND_IMG_PATH);
 
         gameScreen = new GameScreen(myGdxGame);
+        settingsScreen = new SettingsScreen(myGdxGame);
         startButtonView = new ButtonView(140,646,440,70,myGdxGame.pauseButtonFont, GameResources.BUTTON_LONG_IMG_PATH, "start");
         settingsButtonView = new ButtonView(140, 551, 440, 70, myGdxGame.pauseButtonFont, GameResources.BUTTON_LONG_IMG_PATH, "settings");
         exitButtonView = new ButtonView(140, 456, 440, 70, myGdxGame.pauseButtonFont, GameResources.BUTTON_LONG_IMG_PATH, "exit");
@@ -59,7 +61,7 @@ public class MenuScreen extends ScreenAdapter {
                 Gdx.app.exit();
             }
             if (settingsButtonView.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
-                System.out.println("Go to settings Screen");
+                myGdxGame.setScreen(myGdxGame.settingsScreen);
             }
         }
     }

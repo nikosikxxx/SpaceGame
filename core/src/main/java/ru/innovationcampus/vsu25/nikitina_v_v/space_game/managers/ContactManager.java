@@ -1,4 +1,4 @@
-package ru.innovationcampus.vsu25.nikitina_v_v.space_game;
+package ru.innovationcampus.vsu25.nikitina_v_v.space_game.managers;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.objects.GameObject;
 
 public class ContactManager {

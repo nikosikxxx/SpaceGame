@@ -8,12 +8,11 @@ import static ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings.SHI
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
 
-import ru.innovationcampus.vsu25.nikitina_v_v.space_game.ContactManager;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.managers.ContactManager;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameResources;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSession;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameSettings;
@@ -104,10 +103,18 @@ public class GameScreen extends ScreenAdapter {
     }
     private void updateTrash() {
         for (int i = 0; i < trashArray.size(); i++) {
-            if (!trashArray.get(i).isInFrame() || !trashArray.get(i).isAlive()) {
+
+            boolean hasToBeDestroyed = !trashArray.get(i).isAlive() || !trashArray.get(i).isInFrame();
+
+            if (!trashArray.get(i).isAlive()) {
+                myGdxGame.audioManager.explosionSound.play(0.2f);
+            }
+
+            if (hasToBeDestroyed) {
                 myGdxGame.world.destroyBody(trashArray.get(i).body);
                 trashArray.remove(i--);
             }
+            if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.explosionSound.play(0.2f);
         }
     }
     private void updateBullet() {
@@ -133,10 +140,13 @@ public class GameScreen extends ScreenAdapter {
                 BulletObject laserBullet = new BulletObject(GameResources.BULLET_IMG_PATH,shipObject.getX(), shipObject.getY() + shipObject.height/2,
                     GameSettings.BULLET_WIDTH, GameSettings.BULLET_HEiGHT, myGdxGame.world);
                 bulletArray.add(laserBullet);
+                myGdxGame.audioManager.shootSound.play();
             }
             if (!shipObject.isAlive()) {
                 System.out.println("Game over!");
             }
+
+            if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.shootSound.play();
             updateBullet();
             updateTrash();
             backgroundView.move();

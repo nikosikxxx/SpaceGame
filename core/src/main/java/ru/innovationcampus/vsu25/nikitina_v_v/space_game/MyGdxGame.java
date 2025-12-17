@@ -20,8 +20,10 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.managers.AudioManager;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.screens.GameScreen;
 import ru.innovationcampus.vsu25.nikitina_v_v.space_game.screens.MenuScreen;
+import ru.innovationcampus.vsu25.nikitina_v_v.space_game.screens.SettingsScreen;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MyGdxGame extends Game {
@@ -34,6 +36,8 @@ public class MyGdxGame extends Game {
     public BitmapFont commonWhiteFont;
     public BitmapFont pauseWhiteFont;
     public BitmapFont pauseButtonFont;
+    public AudioManager audioManager;
+    public SettingsScreen settingsScreen;
 
     float accumulator = 0;
 
@@ -55,12 +59,15 @@ public class MyGdxGame extends Game {
         commonWhiteFont = FontBuilder.generate(27, Color.WHITE, GameResources.FONTS);
         pauseWhiteFont = FontBuilder.generate(50, Color.WHITE, GameResources.FONTS);
         pauseButtonFont = FontBuilder.generate(30, Color.BLACK, GameResources.FONTS);
+        audioManager = new AudioManager();
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         gameScreen = new GameScreen(this);
         menuScreen = new MenuScreen(this);
+        settingsScreen = new SettingsScreen(this);
+
         setScreen(menuScreen);
     }
 
