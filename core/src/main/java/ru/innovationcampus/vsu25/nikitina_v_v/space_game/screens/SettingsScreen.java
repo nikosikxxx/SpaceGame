@@ -15,7 +15,6 @@ import ru.innovationcampus.vsu25.nikitina_v_v.space_game.views.TextView;
 
 public class SettingsScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
-    MenuScreen menuScreen;
     MovingBackgroundView backgroundView;
     TextView tittleView;
     TextView musicView;
@@ -27,7 +26,6 @@ public class SettingsScreen extends ScreenAdapter {
 
     public SettingsScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
-        menuScreen = new MenuScreen(myGdxGame);
 
         backgroundView = new MovingBackgroundView(GameResources.BACKGROUND_IMG_PATH);
         tittleView = new TextView(myGdxGame.pauseWhiteFont, 256, 956, "Settings");
