@@ -10,8 +10,8 @@ import ru.innovationcampus.vsu25.nikitina_v_v.space_game.GameResources;
 
 public class TextView extends View{
 
-    private BitmapFont font;
-    private String text;
+    protected BitmapFont font;
+    protected String text;
 
     public TextView(BitmapFont font, float x, float y) {
         super(x, y);
@@ -33,7 +33,7 @@ public class TextView extends View{
     }
     @Override
     public void draw(SpriteBatch batch) {
-        font.draw(batch, text, x,y);
+        font.draw(batch, text, x, y + height);
     }
     @Override
     public void dispose() {

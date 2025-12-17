@@ -23,11 +23,18 @@ public class AudioManager {
         backgroundMusic.setVolume(0.3f);
         backgroundMusic.setLooping(true);
 
-        backgroundMusic.play();
+        updateSoundFlag();
+        updateMusicFlag();
+
+//        backgroundMusic.play();
     }
 
     public void updateMusicFlag() {
+        isMusicOn = MemoryManager.loadIsMusicOn();
         if (isMusicOn) backgroundMusic.play();
         else backgroundMusic.stop();
+    }
+    public void updateSoundFlag() {
+        isSoundOn = MemoryManager.loadIsSoundOn();
     }
 }
