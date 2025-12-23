@@ -9,6 +9,7 @@ import ru.innovationcampus.vsu25.nikitina_v_v.space_game.managers.MemoryManager;
 
 public class GameSession {
     long nextTrashSpawnTime;
+    long nextSuperTrashSpawnTime;
     long sessionStartTime;
     long pauseStartTime;
     private int score;
@@ -62,6 +63,14 @@ public class GameSession {
         }
         return false;
     }
+    public boolean shouldSpawnSuperTrash() {
+        if (nextSuperTrashSpawnTime <= TimeUtils.millis()) {
+            nextSuperTrashSpawnTime = TimeUtils.millis() + (long) (GameSettings.STARTING_TRASH_APPEARANCE_COOL_DOWN * getTrashPeriodCoolDown());
+            return true;
+        }
+        return false;
+    }
+
 
     private float getTrashPeriodCoolDown() {
         return (float) Math.exp(-0.001 * (TimeUtils.millis() - sessionStartTime) / 1000);

@@ -70,6 +70,7 @@ public class SettingsScreen extends ScreenAdapter {
         }
         if (clearView.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
             MemoryManager.saveTableOfRecords(new ArrayList<>());
+            clearView.setText("clear records (cleared)");
         }
         if (musicView.isHit(myGdxGame.touch.x, myGdxGame.touch.y)) {
             MemoryManager.saveMusicSettings(!MemoryManager.loadIsMusicOn());

@@ -25,8 +25,6 @@ public class AudioManager {
 
         updateSoundFlag();
         updateMusicFlag();
-
-//        backgroundMusic.play();
     }
 
     public void updateMusicFlag() {
@@ -36,5 +34,6 @@ public class AudioManager {
     }
     public void updateSoundFlag() {
         isSoundOn = MemoryManager.loadIsSoundOn();
+
     }
 }
