@@ -35,6 +35,9 @@ public class GameSession {
     public void destructionRegistration() {
         destructedTrashNumber +=1;
     }
+    public void destructionRegistration2() {
+        destructedTrashNumber +=3;
+    }
     public void updateScore() {
         score = (int) (TimeUtils.millis() - sessionStartTime) / 100 + destructedTrashNumber * 100;
     }

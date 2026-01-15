@@ -127,7 +127,7 @@ public class GameScreen extends ScreenAdapter {
             boolean hasToBeDestroyed = !superTrashArray.get(i).isAlive() || !superTrashArray.get(i).isInFrame();
 
             if (!superTrashArray.get(i).isAlive()) {
-                gameSession.destructionRegistration();
+                gameSession.destructionRegistration2();
                 if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.explosionSound.play(0.2f);
             }
 
@@ -164,7 +164,6 @@ public class GameScreen extends ScreenAdapter {
         }
     }
     private void updateBullet() {
-        System.out.println("size:" + bulletArray.size());
         for (int i = 0; i < bulletArray.size(); i++) {
             if (bulletArray.get(i).hasToBeDestroyed()) {
                 myGdxGame.world.destroyBody(bulletArray.get(i).body);
