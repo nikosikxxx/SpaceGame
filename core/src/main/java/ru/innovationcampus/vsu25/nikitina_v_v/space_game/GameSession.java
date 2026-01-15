@@ -65,7 +65,7 @@ public class GameSession {
     }
     public boolean shouldSpawnSuperTrash() {
         if (nextSuperTrashSpawnTime <= TimeUtils.millis()) {
-            nextSuperTrashSpawnTime = TimeUtils.millis() + (long) (GameSettings.STARTING_TRASH_APPEARANCE_COOL_DOWN * getTrashPeriodCoolDown());
+            nextSuperTrashSpawnTime = TimeUtils.millis() + (GameSettings.STARTING_TRASH_APPEARANCE_COOL_DOWN * 7);
             return true;
         }
         return false;

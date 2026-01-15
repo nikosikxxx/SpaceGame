@@ -183,8 +183,8 @@ public class GameScreen extends ScreenAdapter {
                 trashArray.add(trashObject);
             }
             if (gameSession.shouldSpawnSuperTrash()) {
-                SuperTrashObject superTrashObject = new SuperTrashObject(GameResources.TRASH_IMG_PATH,
-                    GameSettings.TRASH_WIDTH, GameSettings.TRASH_HEIGHT, myGdxGame.world);
+                SuperTrashObject superTrashObject = new SuperTrashObject(GameResources.METEORIT_IMG_PATH,
+                    150, 150, myGdxGame.world);
                 superTrashArray.add(superTrashObject);
             }
             if (shipObject.needToShoot()) {
